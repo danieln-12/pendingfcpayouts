@@ -56,5 +56,5 @@ total = 0
 for ele in range(0, len(payouts)):
     total = total + payouts[ele]
     t2 = total-(total * 2.9 / 100)
-print(f'Total Pending => ${t2/100:.2f}')
+print(f'Total Pending => ${t2/100:.2f}') #CAN VARY BY CENT?? FLIGHT CLUB HORRIBLE APIS
     
