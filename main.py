@@ -34,21 +34,27 @@ params = {
 }
 
 response = requests.get('https://sell.flightclub.com/api/me/ledger', params=params, cookies=cookies, headers=headers)
-
 data = response.json()
-final = [result['debitCents'] for result in data['results']]
-
+f1 = [result['debitCents'] for result in data['results']]
+f2 = list(filter(lambda x: x != 0, f1))
 payouts = []
 for result in data['results']:
+    p1 = result["debitCents"]
+    p2 = p1-(p1 * 2.9 / 100)
     if result["status"] == "requested":
         payouts.append(result["debitCents"])
-        print(f'Payout => ${result["debitCents"]/100:.2f} '
+        print(f'Payout => ${p2/100:.2f} '
+              f'| Date => {result["createdAt"]}' 
+              f' | Status => {result["status"]}')
+    elif result["status"] == "processing":
+        payouts.append(result["debitCents"])
+        print(f'Payout => ${p2/100:.2f} '
               f'| Date => {result["createdAt"]}' 
               f' | Status => {result["status"]}')
 
 total = 0
 for ele in range(0, len(payouts)):
     total = total + payouts[ele]
-
-print(f'Total Pending => ${total/100:.2f}')
+    t2 = total-(total * 2.9 / 100)
+print(f'Total Pending => ${t2/100:.2f}')
     
