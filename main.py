@@ -33,6 +33,8 @@ params = {
     'perPage': '100'
 }
 
+
+
 response = requests.get('https://sell.flightclub.com/api/me/ledger', params=params, cookies=cookies, headers=headers)
 data = response.json()
 f1 = [result['debitCents'] for result in data['results']]
@@ -46,15 +48,10 @@ for result in data['results']:
         print(f'Payout => ${p2/100:.2f} '
               f'| Date => {result["createdAt"]}' 
               f' | Status => {result["status"]}')
-    elif result["status"] == "processing":
-        payouts.append(result["debitCents"])
-        print(f'Payout => ${p2/100:.2f} '
-              f'| Date => {result["createdAt"]}' 
-              f' | Status => {result["status"]}')
 
 total = 0
 for ele in range(0, len(payouts)):
     total = total + payouts[ele]
     t2 = total-(total * 2.9 / 100)
-print(f'Total Pending => ${t2/100:.2f}') #CAN VARY BY CENT?? FLIGHT CLUB HORRIBLE APIS
+print(f'Total Pending => ${t2/100:.2f}')
     
